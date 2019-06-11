@@ -12,10 +12,10 @@ const Tip = () => {
 
 const App = () => {
     const [, WhichComponent] = location.search.match(/cp=([^&]*)/) || []
-    switch (WhichComponent) {
-        case 'CommonLayout':
+    switch (WhichComponent.toLowerCase()) {
+        case 'commonlayout':
             return <CommonLayout />
-        case 'ResourceTree':
+        case 'resourcetree':
             return <ResourceTree />
         default: 
             return <Tip />

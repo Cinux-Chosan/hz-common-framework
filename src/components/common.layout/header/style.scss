@@ -1,7 +1,27 @@
+
+
  .logo {
     width: 120px;
     height: 31px;
     background: rgba(255, 255, 255, 0.2);
     margin: 16px 28px 16px 0;
     float: left;
+    line-height: 1;
+    font-size: 28px;
+    img{
+        max-height: 100%;
+    }
+}
+.menuBox{
+    float: right;
+}
+.userInfo{
+    float: right;
+    height: 31px;
+    width: 100px;
+    text-align: right;
+
+    .userName{
+        color: #eee;
+    }
 }
