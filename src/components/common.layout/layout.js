@@ -1,25 +1,29 @@
 import React, { Component } from 'react'
-import { Layout, Content } from 'antd'
+import { Layout } from 'antd'
 import Header from './header/'
 import Sidebar from './sidebar/'
 
+const { Content } = Layout
 export default class extends Component {
     render() {
-
-        return <Layout>
-        <Header>
-aaa
-        </Header>
-
-        <Layout>
-
-            <Sidebar>
-
-
-            </Sidebar>
-
-        </Layout>
-
-        </Layout>
+        return (
+            <Layout>
+                {/* Page Header */}
+                <Header>
+                    aaa
+                </Header>
+                {/* Main Page */}
+                <Layout>
+                    {/* Left side bar */}
+                    <Sidebar></Sidebar>
+                    <Layout>
+                        {/* Page Content */}
+                        <Content>
+                            {this.props.children}
+                        </Content>
+                    </Layout>
+                </Layout>
+            </Layout>
+        )
     }
 }

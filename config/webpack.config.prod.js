@@ -2,5 +2,5 @@
 
 module.exports = {
     mode: 'production',
-    externals: /(react|antd).*/
+    externals: /(react|antd|untd).*/
 }
