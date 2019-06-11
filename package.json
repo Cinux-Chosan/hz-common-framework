@@ -19,7 +19,7 @@
     "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
-    "antd": "*",
+    "untd": "*",
     "babel-loader": "^8.0.5",
     "babel-plugin-import": "^1.11.0",
     "clean-webpack-plugin": "^1.0.1",

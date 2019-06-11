@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from 'antd';
+import { Icon } from 'untd';
 import ResourceTree from '.';
 
 const btn = (props) => {

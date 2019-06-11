@@ -66,7 +66,7 @@ const baseConfig = {
             plugins: ["react-hot-loader/babel",
               [
                 'import', {
-                  libraryName: 'antd',
+                  libraryName: 'untd',
                   libraryDirectory: 'es',
                   style: 'css',
                 }],
