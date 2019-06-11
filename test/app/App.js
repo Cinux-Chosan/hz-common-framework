@@ -6,7 +6,7 @@ import ResourceTree from '@components/resource.tree/demo';
 import CommonLayout from '@components/common.layout/demo';
 
 const Tip = () => {
-    const demoUrl = 'http://localhost:8000/?cp=CommonLayout'
+    const demoUrl = `${location.origin}/?cp=CommonLayout`
     return <h1 style={{textAlign: 'center', lineHeight: 5}}> 啊哦~ 没有组件 /(ㄒoㄒ)/~~，请使用查询参数 cp 指定组件，如 <a href={demoUrl}>{demoUrl}</a></h1>
 }
 
