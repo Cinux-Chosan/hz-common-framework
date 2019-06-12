@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Layout, Menu, Dropdown, Icon } from 'untd'
-import styles from './style.scss'
+import styles from './style.less'
 const { Header } = Layout
 
 
@@ -27,9 +27,11 @@ const menu = (
   
 export default class extends Component {
     render() {
-        return <Header>
+        return <Header className="hz-common-layout-header">
             <div className={styles.logo}>
-                <img src='https://github.com/skipjack.png?size=90' />
+                <div className={styles.logoImgWrapper}>
+                    <img src='https://github.com/skipjack.png?size=90' alt="logo" />
+                </div>
                 Platform Name
             </div>
             <div className={styles.userInfo}>

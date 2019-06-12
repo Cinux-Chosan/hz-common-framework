@@ -5,13 +5,22 @@ const { SubMenu } = Menu
 const { Sider } = Layout
 
 export default class extends Component {
+  scrollBoxInstanceRef = React.createRef()
+  onOpenChange = () => {
+    // const { scrollBoxInstanceRef: { current: scrollBoxInstanceRef } } = this
+    // if (scrollBoxInstanceRef.refresh) {
+    //   setTimeout(() => scrollBoxInstanceRef.refresh(), 300)
+    // }
+  }
   render() {
+    const { scrollBoxInstanceRef, onOpenChange } = this
     return (
-      <Sider width={300}>
-        <Scrollbox>
+      <Sider collapsible width={300} className="hz-common-layout-sider">
+        <Scrollbox ref={scrollBoxInstanceRef}>
           <Menu
             mode="inline"
             theme="dark"
+            onOpenChange={onOpenChange}
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
           >
@@ -20,8 +29,10 @@ export default class extends Component {
               title={
                 <span>
                   <Icon type="user" />
-                  subnav 1
-              </span>
+                  <span>
+                    subnav 1
+                  </span>
+                </span>
               }
             >
               <Menu.Item key="1">option1</Menu.Item>
@@ -34,8 +45,10 @@ export default class extends Component {
               title={
                 <span>
                   <Icon type="laptop" />
-                  subnav 2
-              </span>
+                  <span>
+                    subnav 2
+                  </span>
+                </span>
               }
             >
               <Menu.Item key="5">option5</Menu.Item>
@@ -48,15 +61,17 @@ export default class extends Component {
               title={
                 <span>
                   <Icon type="notification" />
-                  subnav 3
-              </span>
+                  <span>
+                    subnav 3
+                  </span>
+                </span>
               }
             >
               <Menu.Item key="9">option9</Menu.Item>
               <Menu.Item key="10">option10</Menu.Item>
               <Menu.Item key="11">option11</Menu.Item>
               <Menu.Item key="12">option12</Menu.Item>
-              <Menu.Item key="12">option12</Menu.Item>
+              <Menu.Item key="13">option12</Menu.Item>
               <Menu.Item key="12">option12</Menu.Item>
               <Menu.Item key="12">option12</Menu.Item>
               <Menu.Item key="12">option12</Menu.Item>

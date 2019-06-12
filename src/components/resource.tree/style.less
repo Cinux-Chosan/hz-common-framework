@@ -1,4 +1,4 @@
-$left: -3.5em;
+@left: -3.5em;
 
 :global(.ant-menu-submenu-title){
     .loadAllBtn{
@@ -44,8 +44,8 @@ $left: -3.5em;
 
 .treeNodeStatus{
     position: relative;
-    // text-indent: $left;
-    left: $left + 2em;
+    // text-indent: @left;
+    left: @left + 2em;
     top: 0;
 
     &.online{
@@ -64,5 +64,5 @@ $left: -3.5em;
 .treeNodeName{
     position: relative;
     display: inline-block;
-    text-indent: $left + 2em;
+    text-indent: @left + 2em;
 }

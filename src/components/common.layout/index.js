@@ -1,8 +1,12 @@
-import React, { Component } from 'react'
-import Layout from './layout'
+import React from  'react';
+import { Provider } from 'react-redux';
+import Layout, { CommonLayout } from './layout'
+import store from '../../redux';
 
-export default class extends Component {
-    render () {
-        return <Layout />
-    }
+export default (props) => {
+    return (
+        <Provider store={store}>
+            <Layout {...props}/>
+        </Provider>
+    )
 }

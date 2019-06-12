@@ -75,7 +75,7 @@ const baseConfig = {
         }
       },
       {
-        test: /\.(css|scss)$/,
+        test: /\.(css|less)$/,
         exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader, // "style-loader",
@@ -99,7 +99,7 @@ const baseConfig = {
               ]
             }
           },
-          "sass-loader"]
+          "less-loader"]
       },
       {
         test: /\.(css|scss)$/,

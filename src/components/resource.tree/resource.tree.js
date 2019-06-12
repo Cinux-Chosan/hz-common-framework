@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Menu, Icon, Input, Tooltip } from "untd";
-import styles from "./style.scss";
+import styles from "./style.less";
 import { complementReverse } from "../../libs/utils";
 import {
   FETCH_RESOURCE_TREE,
