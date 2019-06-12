@@ -3,14 +3,21 @@ import { connect } from 'react-redux'
 import { Layout, Spin } from 'untd'
 import Header from './header/'
 import Sidebar from './sidebar/'
+import styles from './style.less'
 import { COMMON_LAYOUT_TOGGLE_SIDEBAR, COMMON_LAYOUT_SHOW_SIDEBAR, COMMON_LAYOUT_HIDE_SIDEBAR } from './action.type'
 const { Content } = Layout
 export class CommonLayout extends Component {
+    state = { isLoading: true }
+
     componentDidMount() {
-        debugger
-        setTimeout(() => this.props.setSidebarVisibility(false), 100)
+        window.xxx = this.props.setSidebarVisibility.bind(this)
+        setTimeout(() => {
+            this.props.setSidebarVisibility(false)
+            this.setState({ isLoading: false })
+        }, )
     }
-    render() {
+
+    layout = () => {
         const { showSidebar } = this.props
         return (
             <Layout>
@@ -29,6 +36,11 @@ export class CommonLayout extends Component {
                 </Layout>
             </Layout>
         )
+    }
+
+    render() {
+        const { isLoading } = this.state
+        return isLoading ? (<Spin className={styles.spin} size="large"/>) : (<this.layout />)
     }
 }
 
