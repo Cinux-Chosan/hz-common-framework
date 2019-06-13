@@ -51,6 +51,7 @@ const getPrivilegeMenusTree = () =>
     let bSuccess = false;
 
     if (Array.isArray(res) && res.length > 0 && Array.isArray(routes) && routes.length) {
+      bSuccess = true;
       zjjMerge(routes, res)
 
       Object.assign(oResult, {
