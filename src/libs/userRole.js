@@ -7,7 +7,7 @@ import routes from "../components/common.layout/router.config";
 
 /** 根据本地路由配置规则重组接口获取后的数据 */
 const reCombineRouter = (oRuter = {}) => {
-  const { default_url = '', menu_name = '', icon = '', is_menu = '', is_outreach = '' } = oRuter;
+  const { default_url = '', menu_name = '', icon = '', is_menu = '', is_outreach = '', child = [] } = oRuter;
 
   const oResult = {
     path: default_url || '',
@@ -16,6 +16,17 @@ const reCombineRouter = (oRuter = {}) => {
     is_menu,
     is_outreach,
   };
+
+  if (child && child.length) {
+   const routes = [];
+   child.forEach(item => {
+    routes.push(reCombineRouter(item));
+   });
+
+   Object.assign(oResult, {
+     routes,
+   });
+  }
 
   return oResult;
 };
