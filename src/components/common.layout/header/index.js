@@ -55,13 +55,13 @@ export class CommonHeader extends Component {
         </div>
         Platform Name
             </div>
-      <div className={styles.userInfo}>
-        <Dropdown overlay={menu}>
+      <Dropdown overlay={menu} placement="bottomCenter">
+        <div className={styles.userInfo}>
           <span className={styles.userName}>
             用户名<Icon type="down" />
           </span>
-        </Dropdown>
-      </div>
+        </div>
+      </Dropdown>
       <this.navLink />
     </Header>
   }
