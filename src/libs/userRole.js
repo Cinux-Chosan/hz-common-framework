@@ -8,12 +8,12 @@ import { mergeTree } from './test'
 
 /** 根据本地路由配置规则重组接口获取后的数据 */
 const reCombineRouter = (oRuter = {}) => {
-  const { default_url = '', menu_name = '', icon = '', is_menu = '', is_outreach = '', child = [] } = oRuter;
+  const { default_url: path, menu_name: name, icon, is_menu, is_outreach, child = [] } = oRuter;
 
   const oResult = {
-    path: default_url || '',
-    name: menu_name,
-    icon: icon || '',
+    path,
+    name,
+    icon,
     is_menu,
     is_outreach,
   };
