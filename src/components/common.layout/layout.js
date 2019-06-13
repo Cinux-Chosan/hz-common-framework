@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Layout, Spin } from 'untd'
+import { getPrivilegeMenusTree } from '../../libs/userRole'
 import Header from './header/'
 import Sidebar from './sidebar/'
 import styles from './style.less'
@@ -21,15 +22,15 @@ export class CommonLayout extends Component {
     }
 
     layout = () => {
-        const { showSidebar } = this.props
+        const { bShowSidebar, bShowHeader } = this.props
         return (
             <Layout>
                 {/* Page Header */}
-                <Header />
+                {bShowHeader ? <Header /> : null}
                 {/* Main Page */}
                 <Layout>
                     {/* Left side bar */}
-                    {showSidebar ? <Sidebar /> : null}
+                    {bShowSidebar ? <Sidebar /> : null}
                     <Layout>
                         {/* Page Content */}
                         <Content>
@@ -47,9 +48,9 @@ export class CommonLayout extends Component {
     }
 }
 
-const mapStateToProps = ({ showSidebar }) => {
+const mapStateToProps = ({ bShowSidebar, bShowHeader }) => {
     return {
-        showSidebar
+        bShowSidebar, bShowHeader
     }
 }
 
