@@ -590,17 +590,12 @@ const remote1 = [
 function zjjMerge(local = [], remote = []) {
     remote.forEach(r => {
         let inLocal = local.find(l => l.path === r.default_url)
-        if (r.default_url === '/33333') {
-            debugger
-        }
         if (inLocal) {
-            const ll = local1
             Object.assign(inLocal, r)
             inLocal.routes = inLocal.routes || []
             r.child = r.child || []
             zjjMerge(inLocal.routes, r.child)
         } else {
-            const ll = local1
             local.push(r)
         }
     })
