@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Layout, Spin } from 'untd'
+import { getPrivilegeMenusTree } from '../../libs/userRole'
 import Header from './header/'
 import Sidebar from './sidebar/'
 import styles from './style.less'
@@ -10,12 +11,13 @@ const { Content } = Layout
 import { getPrivilegeMenusTree, getPrivilegeMenus } from '../../libs/userRole';
 
 export class CommonLayout extends Component {
+
     state = { isLoading: true }
 
     componentDidMount() {
         window.xxx = this.props.setSidebarVisibility.bind(this)
         setTimeout(() => {
-            this.props.setSidebarVisibility(false)
+            // this.props.setSidebarVisibility(false)
             this.setState({ isLoading: false })
         }, )
 
@@ -24,15 +26,15 @@ export class CommonLayout extends Component {
     }
 
     layout = () => {
-        const { showSidebar } = this.props
+        const { bShowSidebar, bShowHeader } = this.props
         return (
             <Layout>
                 {/* Page Header */}
-                <Header />
+                {bShowHeader ? <Header /> : null}
                 {/* Main Page */}
                 <Layout>
                     {/* Left side bar */}
-                    {showSidebar ? <Sidebar /> : null}
+                    {bShowSidebar ? <Sidebar /> : null}
                     <Layout>
                         {/* Page Content */}
                         <Content>
@@ -46,13 +48,13 @@ export class CommonLayout extends Component {
 
     render() {
         const { isLoading } = this.state
-        return isLoading ? (<Spin className={styles.spin} size="large"/>) : (<this.layout />)
+        return isLoading ? <Spin className={styles.spin} size="large"/> : <this.layout />
     }
 }
 
-const mapStateToProps = ({ showSidebar }) => {
+const mapStateToProps = ({ bShowSidebar, bShowHeader }) => {
     return {
-        showSidebar
+        bShowSidebar, bShowHeader
     }
 }
 

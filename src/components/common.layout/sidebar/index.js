@@ -1,28 +1,30 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Layout, Menu, Icon } from 'untd'
 import { Scrollbox } from 'untd'
+import { COMMON_LAYOUT_TOGGLE_SIDEBAR_COLLAPSE } from '../action.type'
 const { SubMenu } = Menu
 const { Sider } = Layout
 
-export default class extends Component {
+export class CommonSidebar extends Component {
   scrollBoxInstanceRef = React.createRef()
   onOpenChange = () => {
-    // const { scrollBoxInstanceRef: { current: scrollBoxInstanceRef } } = this
-    // if (scrollBoxInstanceRef.refresh) {
-    //   setTimeout(() => scrollBoxInstanceRef.refresh(), 300)
-    // }
+    const { scrollBoxInstanceRef: { current: scrollBoxInstanceRef } } = this
+    if (scrollBoxInstanceRef.refresh) {
+      // 侧边栏高度变化，refresh iscroll
+      setTimeout(() => scrollBoxInstanceRef.refresh(), 500)
+    }
   }
   render() {
-    const { scrollBoxInstanceRef, onOpenChange } = this
+    const { scrollBoxInstanceRef, onOpenChange, props: { bExpandSidebar } } = this
     return (
-      <Sider collapsible width={300} className="hz-common-layout-sider">
+      <Sider collapsible collapsed={!bExpandSidebar} onCollapse={this.props.onCollapse}  width={300} className="hz-common-layout-sider">
         <Scrollbox ref={scrollBoxInstanceRef}>
           <Menu
             mode="inline"
             theme="dark"
             onOpenChange={onOpenChange}
             defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
           >
             <SubMenu
               key="sub1"
@@ -95,3 +97,16 @@ export default class extends Component {
     )
   }
 }
+
+
+const mapStateToProps = ({ bExpandSidebar }) => ({
+  bExpandSidebar
+})
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onCollapse: collapsed => dispatch({ type: COMMON_LAYOUT_TOGGLE_SIDEBAR_COLLAPSE })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommonSidebar)
