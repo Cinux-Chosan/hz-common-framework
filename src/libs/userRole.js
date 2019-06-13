@@ -4,6 +4,8 @@
 import request from "../libs/request";
 import API_MAP from "../consts/apiMap";
 import routes from "../components/common.layout/router.config";
+import { local, remote } from './test'
+
 
 // 全局暂存已经匹配过的路由
 const aHandleRoutes = [];
@@ -48,7 +50,7 @@ const localCombineRemote = (oLocal = {}, oRemote = {}) => {
     icon: icon || '',
   });
 
-  if(routes && child && routes.length && child.length) {
+  if (routes && child && routes.length && child.length) {
     const aNewTmep = [];
     const aNewRoutes = routes.map(item => {
       child.forEach(oc => {
@@ -59,7 +61,7 @@ const localCombineRemote = (oLocal = {}, oRemote = {}) => {
           localCombineRemote(item, oc);
         } else {
           if (!aHandleRoutes.includes(oc.default_url)) {
-            oNewTmep.push(reCombineRouter(oc)); 
+            aNewTmep.push(reCombineRouter(oc));
           }
         }
       });
@@ -97,8 +99,8 @@ const getPrivilegeMenusTree = () =>
 
       // 存放新增的权限菜单信息
       const oNewTmep = [];
-      const data = routes.map(item => {
-        res.forEach(op => {
+      const data = local.map(item => {
+        remote.forEach(op => {
           // 顶层路由相等
           if (item.path && op.default_url && item.path === op.default_url) {
             if (!aHandleRoutes.includes(item.path)) {
@@ -109,7 +111,7 @@ const getPrivilegeMenusTree = () =>
           } else {
             if (!aHandleRoutes.includes(op.default_url)) {
               // 没有相同的路由，直接将权限菜单追加
-              oNewTmep.push(reCombineRouter(op)); 
+              oNewTmep.push(reCombineRouter(op));
             }
           }
         })
@@ -136,3 +138,20 @@ const getPrivilegeMenusTree = () =>
   });
 
 export { getPrivilegeMenus, getPrivilegeMenusTree };
+
+
+
+function zjjMerge(local, remote) {
+  local = local || []
+  remote = remote || []
+  remote.forEach(r => {
+    let inLocal = local.find(l => l.path === r.default_url)
+    if (inLocal) {
+      Object.assign(inLocal, r)
+      zjjMerge(inLocal.routes, r.child)
+    } else {
+      local.push(r)
+    }
+  })
+}
+

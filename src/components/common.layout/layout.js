@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Layout, Spin } from 'untd'
-import { getPrivilegeMenusTree } from '../../libs/userRole'
 import Header from './header/'
 import Sidebar from './sidebar/'
 import styles from './style.less'
 import { COMMON_LAYOUT_TOGGLE_SIDEBAR, COMMON_LAYOUT_SHOW_SIDEBAR, COMMON_LAYOUT_HIDE_SIDEBAR } from './action.type'
-const { Content } = Layout
 
 import { getPrivilegeMenusTree, getPrivilegeMenus } from '../../libs/userRole';
 
+const { Content } = Layout
 export class CommonLayout extends Component {
 
     state = { isLoading: true }
@@ -21,7 +20,7 @@ export class CommonLayout extends Component {
             this.setState({ isLoading: false })
         }, )
 
-        getPrivilegeMenus().then(res => console.log(res, 111));
+        // getPrivilegeMenus().then(res => console.log(res, 111));
         getPrivilegeMenusTree().then(res => console.log(res, '22222')).catch(res => console.log(res, 'cccc'));
     }
 
