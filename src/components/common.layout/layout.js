@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Layout, Spin } from 'untd'
-import { getPrivilegeMenusTree } from '../../libs/userRole'
 import Header from './header/'
 import Sidebar from './sidebar/'
 import styles from './style.less'
