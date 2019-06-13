@@ -587,27 +587,28 @@ const remote1 = [
     }]
 
 
-function zjjMerge(local = [], remote = []) {
+function mergeTree(local = [], remote = []) {
     remote.forEach(r => {
         let inLocal = local.find(l => l.path === r.default_url)
         if (inLocal) {
             Object.assign(inLocal, r)
             inLocal.routes = inLocal.routes || []
             r.child = r.child || []
-            zjjMerge(inLocal.routes, r.child)
+            mergeTree(inLocal.routes, r.child)
         } else {
             local.push(r)
         }
     })
 }
 
-zjjMerge(local1, remote1)
+mergeTree(local1, remote1)
 
-console.log(local1)
+
 
 
 
 export {
     local1 as local,
-    remote1 as remote
+    remote1 as remote,
+    mergeTree
 }

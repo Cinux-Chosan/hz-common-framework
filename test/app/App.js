@@ -4,6 +4,7 @@ import React from 'react';
 import { hot } from 'react-hot-loader/root'
 import ResourceTree from '@components/resource.tree/demo';
 import CommonLayout from '@components/common.layout/demo';
+import Large from './components/large'
 import { TransitionMotion, spring } from 'react-motion';
 
 const Tip = () => {
@@ -63,6 +64,8 @@ const App = () => {
             return <ResourceTree />
         case 'motion':
             return <Test />
+        case 'large':
+            return <Large />
         default:
             return <Tip />
     }

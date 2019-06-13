@@ -4,6 +4,7 @@
 import request from "../libs/request";
 import API_MAP from "../consts/apiMap";
 import routes from "../components/common.layout/router.config";
+import { mergeTree } from './test'
 
 /** 根据本地路由配置规则重组接口获取后的数据 */
 const reCombineRouter = (oRuter = {}) => {
@@ -52,7 +53,10 @@ const getPrivilegeMenusTree = () =>
 
     if (Array.isArray(res) && res.length > 0 && Array.isArray(routes) && routes.length) {
       bSuccess = true;
-      zjjMerge(routes, res)
+      
+      // zjjMerge(routes, res)
+      mergeTree(routes, res)
+      // console.log(routes)
 
       Object.assign(oResult, {
         data: routes,

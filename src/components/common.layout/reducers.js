@@ -9,7 +9,9 @@ import {
     COMMON_LAYOUT_HIDE_HEADER,
     COMMON_LAYOUT_TOGGLE_SIDEBAR_COLLAPSE,
     COMMON_LAYOUT_EXPAND_SIDEBAR,
-    COMMON_LAYOUT_COLLAPSE_SIDEBAR } from './action.type'
+    COMMON_LAYOUT_COLLAPSE_SIDEBAR,
+    SET_PRIVILEGE_MENU_TREE,
+    SET_PRIVILEGE_MENU_TREE_LOADING } from './action.type'
 
 
 export const bShowSidebar = (state = !getQuery('hideCommonSidebar'), action) => {
@@ -46,6 +48,19 @@ export const bExpandSidebar = (state = !getQuery('collapseCommonSidebar'), actio
             return true
         case COMMON_LAYOUT_COLLAPSE_SIDEBAR:
             return false
+        default:
+            return state
+    }
+}
+
+
+export const privilegeTree = (state = { isLoading: true }, action) => {
+    const { type, payload, isLoading } = action
+    switch (type) {
+        case SET_PRIVILEGE_MENU_TREE:
+            return { payload, isLoading: false }
+        case SET_PRIVILEGE_MENU_TREE_LOADING:
+            return { ...state, isLoading }
         default:
             return state
     }
