@@ -90,3 +90,8 @@ export function complementReverse(arr1 = [], arr2 = []) {
 
 
 export const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
+export const getQuery = (str, regFlag = 'i') => {
+    const [, queryValue] = location.search.match(new RegExp(`[?&]+${str}=([^&]*)`, regFlag)) || []
+    return queryValue
+}

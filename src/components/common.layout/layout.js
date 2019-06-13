@@ -7,12 +7,13 @@ import styles from './style.less'
 import { COMMON_LAYOUT_TOGGLE_SIDEBAR, COMMON_LAYOUT_SHOW_SIDEBAR, COMMON_LAYOUT_HIDE_SIDEBAR } from './action.type'
 const { Content } = Layout
 export class CommonLayout extends Component {
+
     state = { isLoading: true }
 
     componentDidMount() {
         window.xxx = this.props.setSidebarVisibility.bind(this)
         setTimeout(() => {
-            this.props.setSidebarVisibility(false)
+            // this.props.setSidebarVisibility(false)
             this.setState({ isLoading: false })
         }, )
     }
@@ -40,7 +41,7 @@ export class CommonLayout extends Component {
 
     render() {
         const { isLoading } = this.state
-        return isLoading ? (<Spin className={styles.spin} size="large"/>) : (<this.layout />)
+        return isLoading ? <Spin className={styles.spin} size="large"/> : <this.layout />
     }
 }
 

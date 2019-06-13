@@ -11,7 +11,7 @@ const Tip = () => {
 }
 
 const App = () => {
-    const [, WhichComponent] = location.search.match(/cp=([^&]*)/) || []
+    const [, WhichComponent = ''] = location.search.match(/cp=([^&]*)/) || []
     switch (WhichComponent.toLowerCase()) {
         case 'commonlayout':
             return <CommonLayout />

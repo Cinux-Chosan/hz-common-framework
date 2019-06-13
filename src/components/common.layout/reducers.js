@@ -1,7 +1,8 @@
 
+import { getQuery } from '../../libs/utils'
 import { COMMON_LAYOUT_TOGGLE_SIDEBAR, COMMON_LAYOUT_SHOW_SIDEBAR, COMMON_LAYOUT_HIDE_SIDEBAR } from './action.type'
 
-export const showSidebar = (state = true, action) => {
+export const showSidebar = (state = !getQuery('hideCommonSidebar'), action) => {
     switch (action.type) {
         case COMMON_LAYOUT_TOGGLE_SIDEBAR:
             return !state
