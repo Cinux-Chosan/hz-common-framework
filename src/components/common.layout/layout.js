@@ -6,6 +6,9 @@ import Sidebar from './sidebar/'
 import styles from './style.less'
 import { COMMON_LAYOUT_TOGGLE_SIDEBAR, COMMON_LAYOUT_SHOW_SIDEBAR, COMMON_LAYOUT_HIDE_SIDEBAR } from './action.type'
 const { Content } = Layout
+
+import { getPrivilegeMenusTree, getPrivilegeMenus } from '../../libs/userRole';
+
 export class CommonLayout extends Component {
     state = { isLoading: true }
 
@@ -16,7 +19,8 @@ export class CommonLayout extends Component {
             this.setState({ isLoading: false })
         }, )
 
-        getPrivilegeMenusTree().then(res => console.log(res, '22222'))
+        getPrivilegeMenus().then(res => console.log(res, 111));
+        getPrivilegeMenusTree().then(res => console.log(res, '22222')).catch(res => console.log(res, 'cccc'));
     }
 
     layout = () => {
