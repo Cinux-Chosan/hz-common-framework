@@ -15,6 +15,8 @@ export class CommonLayout extends Component {
             this.props.setSidebarVisibility(false)
             this.setState({ isLoading: false })
         }, )
+
+        getPrivilegeMenusTree().then(res => console.log(res, '22222'))
     }
 
     layout = () => {
