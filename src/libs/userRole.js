@@ -42,7 +42,7 @@ const reCombineRouter = (oRuter = {}) => {
 const localCombineRemote = (oLocal = {}, oRemote = {}) => {
   const { routes = [] } = oLocal;
   const { child = [], is_menu = '', is_outreach = '', menu_name = '', icon = '' } = oRemote;
-  // 追加是否外链，是否菜单
+  // 追加是否外链，是否菜单，菜单名称，图标等
   Object.assign(oLocal, {
     is_menu,
     is_outreach,
@@ -50,9 +50,11 @@ const localCombineRemote = (oLocal = {}, oRemote = {}) => {
     icon: icon || '',
   });
 
-  if (routes && child && routes.length && child.length) {
-    const aNewTmep = [];
+  // 递归处理子节点
+  if(routes && child && routes.length && child.length) {
+    let aNewTmep = [];
     const aNewRoutes = routes.map(item => {
+      aNewTmep = [];
       child.forEach(oc => {
         if (item.path && oc.default_url && item.path === oc.default_url) {
           if (!aHandleRoutes.includes(item.path)) {
@@ -61,7 +63,7 @@ const localCombineRemote = (oLocal = {}, oRemote = {}) => {
           localCombineRemote(item, oc);
         } else {
           if (!aHandleRoutes.includes(oc.default_url)) {
-            aNewTmep.push(reCombineRouter(oc));
+            aNewTmep.push(reCombineRouter(oc)); 
           }
         }
       });
@@ -81,7 +83,6 @@ const getPrivilegeMenus = () => request(API_MAP.getPrivilegeMenus);
 /** 获取权限菜单，结果已树形菜单返回
  *  根据本地路由配置和接口返回配置组装路由信息
  */
-
 const getPrivilegeMenusTree = () =>
   request(API_MAP.getPrivilegeMenusTree).then(res => {
     // 返回数据基本结构
@@ -98,8 +99,9 @@ const getPrivilegeMenusTree = () =>
       bSuccess = true;
 
       // 存放新增的权限菜单信息
-      const oNewTmep = [];
+      let oNewTmep = [];
       const data = local.map(item => {
+        oNewTmep = [];
         remote.forEach(op => {
           // 顶层路由相等
           if (item.path && op.default_url && item.path === op.default_url) {
