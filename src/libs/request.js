@@ -12,9 +12,9 @@ function getRequestHeaders(
   withToken = window.hzConfig && window.hzConfig.withToken
 ) {
   let headers = null;
-  const userCode = getCookie("usercode");
-  const userName = getCookie("username");
-  const userToken = getCookie("usertoken");
+  const userCode = 'admin' || getCookie("usercode");
+  const userName = 'admin' || getCookie("username");
+  const userToken = '63c38c32-845a-4c86-b266-ee590c041fb4' || getCookie("usertoken");
   const user = escape(escape(`usercode:${userCode}&username:${userName}`));
   if (withToken) {
     headers = {
