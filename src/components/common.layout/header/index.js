@@ -7,17 +7,17 @@ const { Header } = Layout
 
 const menu = (
   <Menu>
-    <Menu.Item>
+    <Menu.Item key={1}>
       <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
         1st menu item
         </a>
     </Menu.Item>
-    <Menu.Item>
+    <Menu.Item key={2}>
       <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
         2nd menu item
         </a>
     </Menu.Item>
-    <Menu.Item>
+    <Menu.Item key={3}>
       <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
         3rd menu item
         </a>
@@ -39,8 +39,8 @@ export class CommonHeader extends Component {
       defaultSelectedKeys={['2']}
       style={{ lineHeight: '64px' }}
     >
-      {privilegeTreeData.map(nav => {
-        return <Menu.Item key={nav.path}>{nav.name}</Menu.Item>
+      {privilegeTreeData.map((nav, index) => {
+        return <Menu.Item key={nav.path||index}>{nav.name}</Menu.Item>
       })}
     </Menu>
   }
