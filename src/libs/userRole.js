@@ -4,42 +4,68 @@
 import request from "../libs/request";
 import API_MAP from "../consts/apiMap";
 import routes from "../components/common.layout/router.config";
-import { mergeTree } from './test'
 
-/** 根据本地路由配置规则重组接口获取后的数据 */
-const reCombineRouter = (oRuter = {}) => {
-  const { default_url: path, menu_name: name, icon, is_menu, is_outreach, child = [] } = oRuter;
-
+const getAtt = item => {
   const oResult = {
-    path,
-    name,
-    icon,
-    is_menu,
-    is_outreach,
-  };
+    path: item.default_url || item.path,
+    name: item.menu_name || item.name,
+    icon: item.icon,
+  }
 
-  if (child && child.length) {
-   const routes = [];
-   child.forEach(item => {
-    routes.push(reCombineRouter(item));
-   });
+  if('is_menu' in item) {
+    Object.assign(oResult, {
+      is_menu: item.is_menu,
+    });
+  }
 
-   Object.assign(oResult, {
-     routes,
-   });
+  if('is_outreach' in item) {
+    Object.assign(oResult, {
+      is_outreach: item.is_outreach,
+    });
+  }
+
+  if('component' in item) {
+    Object.assign(oResult, {
+      component: item.component,
+    });
   }
 
   return oResult;
 };
 
-function zjjMerge(local = [], remote = []) {
+
+/** 根据本地路由配置规则重组接口获取后的数据 */
+const filterData = (routes = []) => {
+  routes.forEach(item => {
+    // 删除额外信息
+    delete item.default_url;
+    delete item.child;
+    delete item.display_order;
+    // 删除routes为空的数据
+    if (item.routes && item.routes.length === 0) {
+      delete item.routes;
+    }
+    
+    // 名称以线上配置为准
+    item.name = item.menu_name || item.name;
+
+    if (item.routes) {
+      filterData(item.routes);
+    }
+  });
+};
+
+/** 菜单合并 */
+function mergeMenu(local = [], remote = []) {
   remote.forEach(r => {
     let inLocal = local.find(l => l.path === r.default_url);
     if (inLocal) {
-      Object.assign(inLocal, reCombineRouter(r));
-      zjjMerge(inLocal.routes || [], r.child || []);
+      Object.assign(inLocal, r);
+      inLocal.routes = inLocal.routes || [];
+      r.child = r.child || [];
+      mergeMenu(inLocal.routes, r.child);
     } else {
-      local.push(reCombineRouter(r));
+      local.push(r);
     }
   });
 }
@@ -64,10 +90,11 @@ const getPrivilegeMenusTree = () =>
 
     if (Array.isArray(res) && res.length > 0 && Array.isArray(routes) && routes.length) {
       bSuccess = true;
-      
-      // zjjMerge(routes, res)
-      mergeTree(routes, res)
-      // console.log(routes)
+
+      // 合并菜单
+      mergeMenu(routes, res);
+      // 过滤数据
+      filterData(routes);
 
       Object.assign(oResult, {
         data: routes,
