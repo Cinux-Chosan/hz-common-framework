@@ -1,40 +1,43 @@
 
 import { getQuery } from '../../libs/utils'
-import { 
-    COMMON_LAYOUT_TOGGLE_SIDEBAR, 
-    COMMON_LAYOUT_SHOW_SIDEBAR, 
-    COMMON_LAYOUT_HIDE_SIDEBAR,
-    COMMON_LAYOUT_TOGGLE_HEADER, 
-    COMMON_LAYOUT_SHOW_HEADER, 
-    COMMON_LAYOUT_HIDE_HEADER,
-    COMMON_LAYOUT_TOGGLE_SIDEBAR_COLLAPSE,
-    COMMON_LAYOUT_EXPAND_SIDEBAR,
-    COMMON_LAYOUT_COLLAPSE_SIDEBAR,
-    SET_PRIVILEGE_MENU_TREE,
-    SET_PRIVILEGE_MENU_TREE_LOADING } from './action.type'
+import * as actions from './action.type'
 
 
-export const bShowSidebar = (state = !getQuery('hideCommonSidebar'), action) => {
-    switch (action.type) {
-        case COMMON_LAYOUT_TOGGLE_SIDEBAR:
-            return !state
-        case COMMON_LAYOUT_SHOW_SIDEBAR:
-            return true
-        case COMMON_LAYOUT_HIDE_SIDEBAR:
-            return false
+export const oShowSidebar = (state = { show: !getQuery('hideCommonSidebar') }, action) => {
+    const { type, motion = true } = action
+    switch (type) {
+        case actions.COMMON_LAYOUT_TOGGLE_SIDEBAR:
+            return { show: !state.show }
+        case actions.COMMON_LAYOUT_SHOW_SIDEBAR:
+            return { show: true }
+        case actions.COMMON_LAYOUT_HIDE_SIDEBAR:
+            return { show: false }
+        case actions.COMMON_LAYOUT_TOGGLE_SIDEBAR_SLIDE:
+            return { show: !state.show, motion }
+        case actions.COMMON_LAYOUT_SHOW_SIDEBAR_SLIDE:
+            return { show: true, motion }
+        case actions.COMMON_LAYOUT_HIDE_SIDEBAR_SLIDE:
+            return { show: false, motion }
         default:
             return state
     }
 }
 
-export const bShowHeader = (state = !getQuery('hideCommonHeader'), action) => {
-    switch (action.type) {
-        case COMMON_LAYOUT_TOGGLE_HEADER:
-            return !state
-        case COMMON_LAYOUT_SHOW_HEADER:
-            return true
-        case COMMON_LAYOUT_HIDE_HEADER:
-            return false
+export const oShowHeader = (state = { bShow: !getQuery('hideCommonHeader') }, action) => {
+    const { type, motion = true } = action
+    switch (type) {
+        case actions.COMMON_LAYOUT_TOGGLE_HEADER:
+            return { bShow: !state.bShow }
+        case actions.COMMON_LAYOUT_SHOW_HEADER:
+            return { bShow: true }
+        case actions.COMMON_LAYOUT_HIDE_HEADER:
+            return { bShow: false }
+        case actions.COMMON_LAYOUT_TOGGLE_HEADER_SLIDE:
+            return { bShow: !state.bShow, motion }
+        case actions.COMMON_LAYOUT_SHOW_HEADER_SLIDE:
+            return { bShow: true, motion }
+        case actions.COMMON_LAYOUT_HIDE_HEADER_SLIDE:
+            return { bShow: false, motion }
         default:
             return state
     }
@@ -42,11 +45,11 @@ export const bShowHeader = (state = !getQuery('hideCommonHeader'), action) => {
 
 export const bExpandSidebar = (state = !getQuery('collapseCommonSidebar'), action) => {
     switch (action.type) {
-        case COMMON_LAYOUT_TOGGLE_SIDEBAR_COLLAPSE:
+        case actions.COMMON_LAYOUT_TOGGLE_SIDEBAR_COLLAPSE:
             return !state
-        case COMMON_LAYOUT_EXPAND_SIDEBAR:
+        case actions.COMMON_LAYOUT_EXPAND_SIDEBAR:
             return true
-        case COMMON_LAYOUT_COLLAPSE_SIDEBAR:
+        case actions.COMMON_LAYOUT_COLLAPSE_SIDEBAR:
             return false
         default:
             return state
@@ -54,12 +57,12 @@ export const bExpandSidebar = (state = !getQuery('collapseCommonSidebar'), actio
 }
 
 
-export const privilegeTree = (state = { isLoading: true }, action) => {
+export const privilegeTree = (state = { isLoading: false }, action) => {
     const { type, payload, isLoading } = action
     switch (type) {
-        case SET_PRIVILEGE_MENU_TREE:
+        case actions.SET_PRIVILEGE_MENU_TREE:
             return { payload, isLoading: false }
-        case SET_PRIVILEGE_MENU_TREE_LOADING:
+        case actions.SET_PRIVILEGE_MENU_TREE_LOADING:
             return { ...state, isLoading }
         default:
             return state

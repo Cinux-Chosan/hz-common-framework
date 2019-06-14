@@ -10,7 +10,9 @@ export default () => {
         <div style={{ textAlign: 'center', marginTop: 300 }}>
             <Button onClick={() => store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_HEADER })}>头部显示切换</Button>
             <Button onClick={() => store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_SIDEBAR })}>侧边栏显示切换</Button>
-            <Button onClick={() => store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_SIDEBAR_COLLAPSE })}>栏切换折叠切换</Button>
+            <Button onClick={() => store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_SIDEBAR_COLLAPSE })}>折叠/展开侧边栏</Button>
+            <Button onClick={() => store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_HEADER_SLIDE })}>头部渐变切换</Button>
+            <Button onClick={() => store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_SIDEBAR_SLIDE })}>侧边栏渐变切换</Button>
         </div>
     </Layout>
 }
