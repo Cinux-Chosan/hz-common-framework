@@ -1,4 +1,5 @@
 :global(.hz-common-layout-header) {
+    padding: 0 20px;
     .logo {
         height: 100%;
         float: left;
@@ -17,18 +18,32 @@
             vertical-align: bottom;
         }
     }
+
+    .navMenuAndUserInfo{
+        .navMenuWidgetContainer{
+            float: right;
+            width: 100px;
+            height: 64px;
+            background: red;
+        }
+        .userInfoDropDownIcon{
+            margin-left: 20px;
+        }
+    }
     .menuBox{
         float: right;
+        margin-right: 20px;
     }
     .userInfo{
         float: right;
         height: 64px;
         text-align: right;
         line-height: 64px;
-    
+        margin-left: 20px;
         .userName{
             color: #eee;
         }
     }
+    
 }
 

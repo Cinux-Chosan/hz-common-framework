@@ -2,32 +2,15 @@
 // Please refer to "Getting Started" (https://github.com/gaearon/react-hot-loader/).
 import React from 'react';
 import { hot } from 'react-hot-loader/root'
-import ResourceTree from '@components/resource.tree/demo';
-import CommonLayout from '@components/common.layout/demo';
-import Large from './components/large'
-import TransitionMotionTest from './components/motion/transition'
-import MotionTest from './components/motion/motion'
-
-const Tip = () => {
-    const demoUrl = `${location.origin}/?cp=CommonLayout`
-    return <h1 style={{ textAlign: 'center', lineHeight: 5 }}> 啊哦~ 没有组件 /(ㄒoㄒ)/~~，请使用查询参数 cp 指定组件，如 <a href={demoUrl}>{demoUrl}</a></h1>
-}
+import MapRoutes from './routes/mapRoutes';
+import { HashRouter as Router } from 'react-router-dom';
 
 const App = () => {
-    const [, WhichComponent = ''] = location.search.match(/cp=([^&]*)/) || []
-    switch (WhichComponent.toLowerCase()) {
-        case 'commonlayout':
-            return <CommonLayout />
-        case 'resourcetree':
-            return <ResourceTree />
-        case 'transitionmotion':
-            return <TransitionMotionTest />
-        case 'motion':
-            return <MotionTest />
-        case 'large':
-            return <Large />
-        default:
-            return <Tip />
-    }
+    return (
+        <Router >
+            <MapRoutes />
+        </Router>
+    )
 }
-export default hot(App);
+export default App
+hot(App);

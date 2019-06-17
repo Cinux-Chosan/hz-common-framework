@@ -5,18 +5,17 @@
  * @Last Modified time: 2019-02-27 17:34:42
  */
 
-const { resolve, join } = require("path");
+const path = require("path");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const webpackMerge = require("webpack-merge");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const devConfig = require("./webpack.config.dev");
 const prodConfig = require("./webpack.config.prod");
-
+const { resolve, join } = path
 const rootDir = resolve(__dirname, "..");
 
 const browsers = "ie >= 9";
-
 const baseConfig = {
   entry: "./es/index.js",
   target: "web",
@@ -35,9 +34,12 @@ const baseConfig = {
   ],
   resolve: {
     alias: {
-      "@components": join(rootDir, "src/components/"),
-      "@app": join(rootDir, "test/app/")
-    }
+        "@components": join(rootDir, "src/components/"),
+        "@app": join(rootDir, "test/app/"),
+        "@pages": join(rootDir, 'test/app/pages'),
+        "@testComponents": join(rootDir, 'test/app/components'),
+        'react-hot-loader': resolve(join(rootDir, './node_modules/react-hot-loader'))
+      }
   },
   optimization: {
     usedExports: true

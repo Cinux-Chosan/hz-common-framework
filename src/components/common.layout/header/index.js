@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Layout, Menu, Dropdown, Icon } from 'untd'
 import { connect } from 'react-redux'
 import { TransitionMotion, spring } from 'react-motion'
+import { Link } from 'react-router-dom'
 import styles from './style.less'
 const { Header } = Layout
 
@@ -27,38 +28,44 @@ const menu = (
         3rd menu item
         </a>
     </Menu.Item>
+    <Menu.Item key={4}>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
+        3rd menu item
+        </a>
+    </Menu.Item>
+    <Menu.Item key={5}>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
+        3rd menu item
+        </a>
+    </Menu.Item>
   </Menu>
 );
 
 
 export class CommonHeader extends Component {
 
-  state = { collapsed: false }
-
-  componentDidMount() {
-    window.yyy = () => this.props.dispatch({ type: 'COMMON_LAYOUT_TOGGLE_HEADER_SLIDE' })
-    window.xxx = () => this.props.dispatch({ type: 'COMMON_LAYOUT_TOGGLE_HEADER' })
-  }
-
   navLink = () => {
     const { privilegeTreeData } = this.props
-    console.log(privilegeTreeData)
+    console.log(privilegeTreeData);
     return <Menu
       className={styles.menuBox}
       theme="dark"
       mode="horizontal"
-      defaultSelectedKeys={['2']}
       style={{ lineHeight: '64px' }}
     >
-      {privilegeTreeData.map((nav, index) => {
-        return <Menu.Item key={nav.path || index}>{nav.name}</Menu.Item>
+      {/* {menu} */}
+      {privilegeTreeData.map((nav) => {
+        return <Menu.Item key={nav.path}>
+          <Link to={nav.path}>{nav.path}</Link>
+          {/* <a href={nav.path}> {nav.path}</a> */}
+        </Menu.Item>
       })}
     </Menu>
   }
 
   header = (props) => {
     const { privilegeTreeData } = this.props
-
+    console.log(privilegeTreeData);
     return (
       <Header {...props} className="hz-common-layout-header">
         <div className={styles.logo}>
@@ -66,15 +73,20 @@ export class CommonHeader extends Component {
             <img src='https://github.com/skipjack.png?size=90' alt="logo" />
           </div>
           Platform Name
-    </div>
-        <Dropdown overlay={menu} placement="bottomCenter">
-          <div className={styles.userInfo}>
-            <span className={styles.userName}>
-              用户名<Icon type="down" />
-            </span>
+        </div>
+        <div className={styles.navMenuAndUserInfo}>
+          <Dropdown overlay={menu} placement="bottomCenter">
+            <div className={styles.userInfo}>
+              <span className={styles.userName}>
+                用户名<Icon className={styles.userInfoDropDownIcon} type="down" />
+              </span>
+            </div>
+          </Dropdown>
+          <div className={styles.navMenuWidgetContainer}>
+            {this.props.widgets}
           </div>
-        </Dropdown>
-        {/* <this.navLink /> */}
+          <this.navLink />
+        </div>
       </Header>
     )
   }
@@ -88,16 +100,24 @@ export class CommonHeader extends Component {
     }
   }
 
-  render() {
+  motionWillEnter = () => {
+    return { marginTop: -HEADER_HEIGHT }
+  }
+
+  motionWillLeave = () => {
     const { motion } = this.props
+    return { marginTop: motion ? spring(-HEADER_HEIGHT, { ...defaultOpaqueConfig, ...motion }) : -HEADER_HEIGHT }
+  }
+
+  render() {
     return <TransitionMotion
       styles={this.motionStyle}
-      willEnter={() => ({ marginTop: -HEADER_HEIGHT })}
-      willLeave={() => ({ marginTop: motion ? spring(-HEADER_HEIGHT, { ...defaultOpaqueConfig, ...motion }) : -HEADER_HEIGHT })}
+      willEnter={this.motionWillEnter}
+      willLeave={this.motionWillLeave}
     >
       {interpolatedStyles => (
         <>
-          {interpolatedStyles.map(config => <this.header key={config.key} style={{ ...config.style }} />)}
+          {interpolatedStyles.map(config => <this.header key={config.key} style={config.style} />)}
         </>
       )}
     </TransitionMotion>

@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { resolve, join } = require('path');
 const package = require('../package');
-
+const { address } = require('ip')
 const rootDir = resolve(__dirname, '..');
 const appDir = join(rootDir, 'test/app/');
 
@@ -16,6 +16,8 @@ module.exports = {
     devtool: "source-map",
     devServer: {
         contentBase: join(rootDir, 'dist'),
+        useLocalIp: true,
+        host: '0.0.0.0',
         port: 8000,
         // publicPath: '/assets/',
         // openPage: 'assets/',

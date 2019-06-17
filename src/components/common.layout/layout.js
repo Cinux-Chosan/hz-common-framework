@@ -20,9 +20,6 @@ export class CommonLayout extends Component {
         this.props.getPrivilegeMenusTree()
     }
 
-    componentDidMount() {
-    }
-
     layout = () => {
         return (
             <Layout>

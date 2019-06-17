@@ -6,7 +6,9 @@ import { COMMON_LAYOUT_TOGGLE_SIDEBAR_COLLAPSE } from '../action.type'
 import { TransitionMotion, spring, presets } from 'react-motion'
 const { SubMenu } = Menu
 const { Sider } = Layout
-const defaultOpaqueConfig = { stiffness: 220, damping: 15, precision: 0.01 }
+// const defaultOpaqueConfig = { stiffness: 300, damping: 30, precision: 0.01 }
+const defaultOpaqueConfig = { stiffness: 300, damping: 26 }
+
 const SIDER_WIDTH = 300
 const SIDER_WIDTH_COLLAPSED = 80
 export class CommonSidebar extends Component {
@@ -22,7 +24,6 @@ export class CommonSidebar extends Component {
 
   sider = props => {
     const { scrollBoxInstanceRef, onOpenChange, props: { bExpandSidebar } } = this
-    console.log(props.style)
     return (
       <Sider style={{ willChange: 'margin-left', ...props.style }}
         collapsible
@@ -30,6 +31,7 @@ export class CommonSidebar extends Component {
         onCollapse={this.props.onCollapse}
         width={300}
         className="hz-common-layout-sider">
+
         <Scrollbox ref={scrollBoxInstanceRef}>
           <Menu
             mode="inline"
@@ -44,7 +46,7 @@ export class CommonSidebar extends Component {
                   <Icon type="user" />
                   <span>
                     subnav 1
-                  </span>
+                   </span>
                 </span>
               }
             >
@@ -60,7 +62,7 @@ export class CommonSidebar extends Component {
                   <Icon type="laptop" />
                   <span>
                     subnav 2
-                  </span>
+                   </span>
                 </span>
               }
             >
@@ -69,14 +71,14 @@ export class CommonSidebar extends Component {
               <Menu.Item key="7">option7</Menu.Item>
               <Menu.Item key="8">option8</Menu.Item>
             </SubMenu>
-            {/* <SubMenu
+            <SubMenu
               key="sub3"
               title={
                 <span>
                   <Icon type="notification" />
                   <span>
                     subnav 3
-                  </span>
+                   </span>
                 </span>
               }
             >
@@ -101,9 +103,10 @@ export class CommonSidebar extends Component {
               <Menu.Item key="12">option12</Menu.Item>
               <Menu.Item key="12">option12</Menu.Item>
               <Menu.Item key="12">option12</Menu.Item>
-            </SubMenu> */}
+            </SubMenu>
           </Menu>
         </Scrollbox>
+
       </Sider>
     )
   }
@@ -117,6 +120,12 @@ export class CommonSidebar extends Component {
     }
   }
 
+  motionWillEnter = () => {
+    const { bExpandSidebar } = this.props
+    const width = bExpandSidebar ? SIDER_WIDTH : SIDER_WIDTH_COLLAPSED
+    return { marginLeft: -width }
+  }
+
   motionWillLeave = () => {
     const { motion, bExpandSidebar } = this.props
     const width = bExpandSidebar ? SIDER_WIDTH : SIDER_WIDTH_COLLAPSED
@@ -124,17 +133,16 @@ export class CommonSidebar extends Component {
   }
 
   render() {
-    const { bExpandSidebar } = this.props
-    const width = bExpandSidebar ? SIDER_WIDTH : SIDER_WIDTH_COLLAPSED
     return <TransitionMotion
       styles={this.motionStyle}
-      willEnter={() => ({ marginLeft: -width })}
+      willEnter={this.motionWillEnter}
       willLeave={this.motionWillLeave}
     >
       {
         interpolatedStyles => (
           <>
-            {interpolatedStyles.map(config => <this.sider key={config.key} style={{ ...config.style }} />)
+            {
+              interpolatedStyles.map(config => <this.sider key={config.key} style={config.style} />)
             }
           </>
         )
