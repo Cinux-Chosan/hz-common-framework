@@ -57,7 +57,7 @@ export const bExpandSidebar = (state = !getQuery('collapseCommonSidebar'), actio
 }
 
 
-export const privilegeTree = (state = { isLoading: false, payload: [] }, action) => {
+export const privilegeTree = (state = { isLoading: true, payload: [] }, action) => {
     const { type, payload = [], isLoading } = action
     switch (type) {
         case actions.SET_PRIVILEGE_MENU_TREE:

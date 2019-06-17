@@ -2,8 +2,12 @@ import React, { Component } from 'react'
 import { Layout, Menu, Dropdown, Icon } from 'untd'
 import { connect } from 'react-redux'
 import { TransitionMotion, spring } from 'react-motion'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+import { withRouter, matchPath } from "react-router";
+import DropdownMenu from './dropdown'
+
 import styles from './style.less'
+import { getPathLevel } from '../router.config';
 const { Header } = Layout
 
 const defaultOpaqueConfig = { stiffness: 300, damping: 26 }
@@ -11,61 +15,33 @@ const defaultOpaqueConfig = { stiffness: 300, damping: 26 }
 // 头部高度
 const HEADER_HEIGHT = 64
 
-const menu = (
-  <Menu>
-    <Menu.Item key={1}>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-        1st menu item
-        </a>
-    </Menu.Item>
-    <Menu.Item key={2}>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
-        2nd menu item
-        </a>
-    </Menu.Item>
-    <Menu.Item key={3}>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
-        3rd menu item
-        </a>
-    </Menu.Item>
-    <Menu.Item key={4}>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
-        3rd menu item
-        </a>
-    </Menu.Item>
-    <Menu.Item key={5}>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
-        3rd menu item
-        </a>
-    </Menu.Item>
-  </Menu>
-);
-
-
 export class CommonHeader extends Component {
-
+  state = {}
   navLink = () => {
-    const { privilegeTreeData } = this.props
-    console.log(privilegeTreeData);
+    const { privilegeTreeData, location: { pathname = '' } } = this.props
+    console.log(this.props);
+    
+    const activeRouteKey = getPathLevel(pathname, 2)
+    const { path: activeIfHttp } = privilegeTreeData.find(route => !window.location.href.indexOf(route.path)) || {}
     return <Menu
       className={styles.menuBox}
       theme="dark"
       mode="horizontal"
+      selectedKeys={[activeRouteKey, activeIfHttp]}
       style={{ lineHeight: '64px' }}
     >
-      {/* {menu} */}
       {privilegeTreeData.map((nav) => {
-        return <Menu.Item key={nav.path}>
-          <Link to={nav.path}>{nav.path}</Link>
-          {/* <a href={nav.path}> {nav.path}</a> */}
-        </Menu.Item>
+        return (
+          <Menu.Item key={nav.path}>
+            {nav.path.match(/^https?:\/\//) ? <a href={nav.path}>{nav.path}</a> : <NavLink to={nav.path}>{nav.path}</NavLink>}
+          </Menu.Item>
+        )
       })}
     </Menu>
   }
 
   header = (props) => {
     const { privilegeTreeData } = this.props
-    console.log(privilegeTreeData);
     return (
       <Header {...props} className="hz-common-layout-header">
         <div className={styles.logo}>
@@ -75,7 +51,7 @@ export class CommonHeader extends Component {
           Platform Name
         </div>
         <div className={styles.navMenuAndUserInfo}>
-          <Dropdown overlay={menu} placement="bottomCenter">
+          <Dropdown overlay={DropdownMenu} placement="bottomCenter">
             <div className={styles.userInfo}>
               <span className={styles.userName}>
                 用户名<Icon className={styles.userInfoDropDownIcon} type="down" />
@@ -128,4 +104,4 @@ const mapStateToProps = ({ oShowHeader, privilegeTree: { payload: privilegeTreeD
   const { bShow: isShow, motion } = oShowHeader
   return { privilegeTreeData, isShow, motion }
 }
-export default connect(mapStateToProps)(CommonHeader)
+export default connect(mapStateToProps)(withRouter(CommonHeader))
