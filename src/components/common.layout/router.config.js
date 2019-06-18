@@ -4,6 +4,7 @@ const route = [
     child: [
       {
         path: '/1/2',
+        defaultOpen: true,
         child: [
           {
             path: '/1/2/1'
@@ -59,5 +60,20 @@ export const getSubRoutes = (parent, routeTree = []) => {
 export const getPathLevel = (path, level = 1) => {
   return path.split('/').slice(0, level).join('/')
 }
+
+export function* treeWalker(routeTree = [], childFieldName, cb) {
+  for(let i = 0, len = routeTree.length; i < len; i++) {
+    const node = routeTree[i]
+    if (cb) {
+      cb(node)
+    }
+    yield node
+    const child = node[childFieldName]
+    if (child) {
+      yield * treeWalker(child, cb)
+    }
+  }
+}
+
 
 export default route

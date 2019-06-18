@@ -3,17 +3,16 @@ import { connect } from 'react-redux'
 import { Layout, Menu, Icon } from 'untd'
 import { Scrollbox } from 'untd'
 import { COMMON_LAYOUT_TOGGLE_SIDEBAR_COLLAPSE } from '../action.type'
-import { TransitionMotion, spring, presets } from 'react-motion'
+import { TransitionMotion, spring } from 'react-motion'
 import { NavLink } from 'react-router-dom'
 import { withRouter } from 'react-router'
-import { getSubRoutes, getPathLevel } from '../router.config';
-
+import { treeWalker } from '../router.config';
 const { SubMenu } = Menu
 const { Sider } = Layout
-// const defaultOpaqueConfig = { stiffness: 300, damping: 30, precision: 0.01 }
-const defaultOpaqueConfig = { stiffness: 300, damping: 26 }
+
 const SIDER_WIDTH = 300
 const SIDER_WIDTH_COLLAPSED = 80
+const defaultOpaqueConfig = { stiffness: 300, damping: 26 }
 export class CommonSidebar extends Component {
   state = {}
   scrollBoxInstanceRef = React.createRef()
@@ -27,23 +26,24 @@ export class CommonSidebar extends Component {
   }
 
   sider = props => {
-    const { scrollBoxInstanceRef, onOpenChange, props: { bExpandSidebar, privilegeTreeData, location: { pathname = '' } } } = this
-    const subRoutes = getSubRoutes(getPathLevel(pathname, 2), privilegeTreeData)
-    
+    const { scrollBoxInstanceRef, onOpenChange,
+      props: { bExpandSidebar, subRoutes, location: { pathname = '' } } } = this
+    const defaultOpenKeys = [...treeWalker(subRoutes, 'child')].filter(route => route.defaultOpen).map(({ path }) => path)
     return (
       <Sider style={{ willChange: 'margin-left', ...props.style }}
+        width={300}
         collapsible
         collapsed={!bExpandSidebar}
         onCollapse={this.props.onCollapse}
-        width={300}
         className="hz-common-layout-sider">
         <Scrollbox ref={scrollBoxInstanceRef}>
           <Menu
             mode="inline"
             theme="dark"
-            selectedKeys={[this.props.location.pathname]}
-            openKeys={this.state.openKeys}
-            onOpenChange={this.onOpenChange}
+            selectedKeys={[pathname]}
+            openKeys={this.state.openKeys || defaultOpenKeys}
+            defaultOpenKeys={defaultOpenKeys}
+            onOpenChange={onOpenChange}
           >
             {
               subRoutes.map(subRoute => {
@@ -115,10 +115,10 @@ export class CommonSidebar extends Component {
 }
 
 
-const mapStateToProps = ({ bExpandSidebar, oShowSidebar, privilegeTree: { payload: privilegeTreeData } }) => {
+const mapStateToProps = ({ bExpandSidebar, oShowSidebar, privilegeTree: { payload: privilegeTreeData }, subRoutes }) => {
   const { show: isShow, motion } = oShowSidebar
   return {
-    bExpandSidebar, isShow, motion, privilegeTreeData
+    bExpandSidebar, isShow, motion, privilegeTreeData, subRoutes
   }
 }
 

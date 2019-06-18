@@ -33,6 +33,16 @@
     .menuBox{
         float: right;
         margin-right: 20px;
+        .headerMenuItem{
+            padding: 0;
+            .navItem{
+                padding: 0 20px;
+                transition: all ease .4s;
+                &:global(.active){
+                    background: red;
+                }
+            }
+        }
     }
     .userInfo{
         float: right;

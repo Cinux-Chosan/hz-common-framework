@@ -68,3 +68,14 @@ export const privilegeTree = (state = { isLoading: true, payload: [] }, action) 
             return state
     }
 }
+
+
+export const subRoutes = (state = [], action) => {
+    const { type, payload = [] } = action
+    switch (type) {
+        case actions.COMMON_LAYOUT_SET_SUB_ROUTES:
+            return payload
+        default:
+            return state
+    }
+}

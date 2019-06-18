@@ -5,9 +5,8 @@ import { TransitionMotion, spring } from 'react-motion'
 import { NavLink } from 'react-router-dom'
 import { withRouter, matchPath } from "react-router";
 import DropdownMenu from './dropdown'
-
+import { COMMON_LAYOUT_SET_SUB_ROUTES } from '../action.type'
 import styles from './style.less'
-import { getPathLevel } from '../router.config';
 const { Header } = Layout
 
 const defaultOpaqueConfig = { stiffness: 300, damping: 26 }
@@ -19,21 +18,32 @@ export class CommonHeader extends Component {
   state = {}
   navLink = () => {
     const { privilegeTreeData, location: { pathname = '' } } = this.props
-    console.log(this.props);
-    
-    const activeRouteKey = getPathLevel(pathname, 2)
-    const { path: activeIfHttp } = privilegeTreeData.find(route => !window.location.href.indexOf(route.path)) || {}
     return <Menu
       className={styles.menuBox}
       theme="dark"
       mode="horizontal"
-      selectedKeys={[activeRouteKey, activeIfHttp]}
+      selectedKeys={[]}
       style={{ lineHeight: '64px' }}
+      onClick={({ item }) => {
+        // this.props.setSubRoute(item.props.nav.child)
+      }}
     >
       {privilegeTreeData.map((nav) => {
+        // path 是否以 http 开头
+        const isHttp = nav.path.match(/^https?:\/\//)
+        // 判断含有 http 的 path 是否被激活，判断依据为当前 url 是否包含 path
+        const isHttpActive = isHttp && !window.location.href.indexOf(nav.path)
+        // 判断 path 是否与 react-router#location 匹配
+        const isMatchByRouter = matchPath(this.props.location.pathname, nav.path)
+        // 上述 2 种任意匹配即认为路由为激活状态，设置子路由数据
+        if (isHttpActive || isMatchByRouter) {
+          setTimeout(() => this.props.setSubRoute(nav.child), 500)
+        }
         return (
-          <Menu.Item key={nav.path}>
-            {nav.path.match(/^https?:\/\//) ? <a href={nav.path}>{nav.path}</a> : <NavLink to={nav.path}>{nav.path}</NavLink>}
+          <Menu.Item key={nav.path} nav={nav} className={styles.headerMenuItem}>
+            {isHttp
+              ? <a href={nav.path} className={[styles.navItem, isHttpActive ? 'active' : ''].join(' ')}>{nav.path}</a>
+              : <NavLink to={nav.path} className={styles.navItem}>{nav.path}</NavLink>}
           </Menu.Item>
         )
       })}
@@ -41,7 +51,6 @@ export class CommonHeader extends Component {
   }
 
   header = (props) => {
-    const { privilegeTreeData } = this.props
     return (
       <Header {...props} className="hz-common-layout-header">
         <div className={styles.logo}>
@@ -104,4 +113,11 @@ const mapStateToProps = ({ oShowHeader, privilegeTree: { payload: privilegeTreeD
   const { bShow: isShow, motion } = oShowHeader
   return { privilegeTreeData, isShow, motion }
 }
-export default connect(mapStateToProps)(withRouter(CommonHeader))
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setSubRoute: payload => dispatch({ type: COMMON_LAYOUT_SET_SUB_ROUTES, payload })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CommonHeader))
