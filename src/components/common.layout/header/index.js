@@ -42,7 +42,7 @@ export class CommonHeader extends Component {
         return (
           <Menu.Item key={nav.path} nav={nav} className={styles.headerMenuItem}>
             {isHttp
-              ? <a href={nav.path} className={[styles.navItem, isHttpActive ? 'active' : ''].join(' ')}>{nav.path}</a>
+              ? <a href={nav.path} target={nav.target || '_self'} className={[styles.navItem, isHttpActive ? 'active' : ''].join(' ')}>{nav.path}</a>
               : <NavLink to={nav.path} className={styles.navItem}>{nav.path}</NavLink>}
           </Menu.Item>
         )

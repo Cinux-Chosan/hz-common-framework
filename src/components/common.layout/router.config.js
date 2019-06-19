@@ -32,6 +32,7 @@ const route = [
   },
   {
     path: 'http://192.168.100.34:8000/#/2',
+    target: '_blank',
     child: [
       {
         path: '/2/2',
