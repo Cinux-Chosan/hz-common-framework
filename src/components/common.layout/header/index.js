@@ -37,7 +37,7 @@ export class CommonHeader extends Component {
         const isMatchByRouter = matchPath(this.props.location.pathname, nav.path)
         // 上述 2 种任意匹配即认为路由为激活状态，设置子路由数据
         if (isHttpActive || isMatchByRouter) {
-          setTimeout(() => this.props.setSubRoute(nav.child), 500)
+          setTimeout(() => this.props.setSubRoute(nav.child), )
         }
         return (
           <Menu.Item key={nav.path} nav={nav} className={styles.headerMenuItem}>

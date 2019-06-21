@@ -1,5 +1,5 @@
 import React from 'react'
-import {Menu} from 'untd'
+import { Menu } from 'untd'
 
 export default () => {
     return (

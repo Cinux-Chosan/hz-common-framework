@@ -19,9 +19,9 @@ export class CommonSidebar extends Component {
   onOpenChange = (openKeys) => {
     const { scrollBoxInstanceRef: { current: scrollBoxInstanceRef } } = this
     this.setState({ openKeys })
-    if (scrollBoxInstanceRef.refresh) {
+    if (scrollBoxInstanceRef && scrollBoxInstanceRef.refresh) {
       // 侧边栏高度变化，refresh iscroll
-      setTimeout(() => scrollBoxInstanceRef.refresh(), 500)
+      // setTimeout(() => scrollBoxInstanceRef.refresh(), 500)
     }
   }
 
@@ -36,7 +36,7 @@ export class CommonSidebar extends Component {
         collapsed={!bExpandSidebar}
         onCollapse={this.props.onCollapse}
         className="hz-common-layout-sider">
-        <Scrollbox ref={scrollBoxInstanceRef}>
+        {/* <Scrollbox ref={scrollBoxInstanceRef}> */}
           <Menu
             mode="inline"
             theme="dark"
@@ -68,8 +68,7 @@ export class CommonSidebar extends Component {
               })
             }
           </Menu>
-        </Scrollbox>
-
+        {/* </Scrollbox> */}
       </Sider>
     )
   }
