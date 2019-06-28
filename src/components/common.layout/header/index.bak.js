@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
 import { Layout, Menu, Dropdown, Icon } from 'untd'
 import { connect } from 'react-redux'
+import { TransitionMotion, spring } from 'react-motion'
 import { NavLink } from 'react-router-dom'
 import { withRouter, matchPath } from "react-router";
 import DropdownMenu from './dropdown'
 import { COMMON_LAYOUT_SET_SUB_ROUTES } from '../action.type'
 import styles from './style.less'
-import { TransitionWrapper } from '../transition.comp';
 const { Header } = Layout
+
+const defaultOpaqueConfig = { stiffness: 300, damping: 26 }
 
 // 头部高度
 const HEADER_HEIGHT = 64
 
 export class CommonHeader extends Component {
   state = {}
-  
   navLink = () => {
     const { privilegeTreeData, location: { pathname = '' } } = this.props
     return <Menu
@@ -75,39 +76,37 @@ export class CommonHeader extends Component {
     )
   }
 
-  enterStyles = () => {
+  motionStyle = () => {
     const { motion, isShow } = this.props
-    return {
-      transition: motion ? 'all .2s' : 'none',
-      opacity: isShow ? 0 : 1,
-      marginTop: isShow ? -HEADER_HEIGHT : 0
+    if (isShow) {
+      return [{ style: { marginTop: motion ? spring(0, { ...defaultOpaqueConfig, ...motion }) : 0 }, key: 'CommmonHeader' }]
+    } else {
+      return []
     }
   }
 
-  endStyles = () => {
-    const { motion, isShow } = this.props
-    return {
-      transition: motion ? 'all .2s' : 'none',
-      opacity: isShow ? 1 : 0,
-      marginTop: isShow ? 0 : -HEADER_HEIGHT
-    }
+  motionWillEnter = () => {
+    return { marginTop: -HEADER_HEIGHT }
   }
 
-  isShow = () => {
-    return this.props.isShow
+  motionWillLeave = () => {
+    const { motion } = this.props
+    return { marginTop: motion ? spring(-HEADER_HEIGHT, { ...defaultOpaqueConfig, ...motion }) : -HEADER_HEIGHT }
   }
 
   render() {
     return (
-      <TransitionWrapper
-        enterStyles={this.enterStyles}
-        endStyles={this.endStyles}
-        isShow={this.isShow}
-        >
-        {(styles, onTransitionEnd) => {
-          return styles ? <this.header style={styles} onTransitionEnd={onTransitionEnd} /> : null
-        }}
-      </TransitionWrapper>
+      <TransitionMotion
+        styles={this.motionStyle}
+        willEnter={this.motionWillEnter}
+        willLeave={this.motionWillLeave}
+      >
+        {interpolatedStyles => (
+          <>
+            {interpolatedStyles.map(config => <this.header key={config.key} style={config.style} />)}
+          </>
+        )}
+      </TransitionMotion>
     )
   }
 }

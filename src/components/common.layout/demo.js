@@ -14,6 +14,14 @@ export default props => {
                 <Button onClick={() => store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_SIDEBAR_COLLAPSE })}>折叠/展开侧边栏</Button>
                 <Button onClick={() => store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_HEADER_SLIDE })}>头部渐变切换</Button>
                 <Button onClick={() => store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_SIDEBAR_SLIDE })}>侧边栏渐变切换</Button>
+                <Button onClick={() => {
+                    store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_HEADER_SLIDE })
+                    store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_SIDEBAR_SLIDE })
+                }}>头部、侧边栏同时渐变切换</Button>
+                <Button onClick={() => {
+                    store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_HEADER_SLIDE })
+                    store.dispatch({ type: actions.COMMON_LAYOUT_TOGGLE_SIDEBAR_COLLAPSE })
+                }}>头部、侧边栏折叠同时渐变切换</Button>
             </div>
         </div>
     </Layout>

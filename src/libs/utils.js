@@ -95,3 +95,16 @@ export const getQuery = (str, regFlag = 'i') => {
     const [, queryValue] = location.search.match(new RegExp(`[?&]+${str}=([^&]*)`, regFlag)) || []
     return queryValue
 }
+
+
+export const isObjectTheSame = (obj1, obj2) => {
+    obj1 = obj1 || {}
+    obj2 = obj2 || {}
+    const tmp = { ...obj1, ...obj2 }
+    for(const key in tmp) {
+        const val1 = obj1[key]
+        const val2 = obj2[key]
+        if (val1 !== val2) return false
+    }
+    return true
+}

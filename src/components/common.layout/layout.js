@@ -42,7 +42,6 @@ export class CommonLayout extends Component {
 
     render() {
         const { privilegeTree: { isLoading } } = this.props
-        console.log(isLoading)
         return isLoading ? <Spin className={styles.spin} size="large" /> : <this.layout />
     }
 }

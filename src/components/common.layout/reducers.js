@@ -2,7 +2,6 @@
 import { getQuery } from '../../libs/utils'
 import * as actions from './action.type'
 
-
 export const oShowSidebar = (state = { show: !getQuery('hideCommonSidebar') }, action) => {
     const { type, motion = true } = action
     switch (type) {
